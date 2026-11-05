@@ -1,8 +1,8 @@
 Self-tests: PASS (7 cases x 3 algorithms: empty, singleton, sorted, reverse, duplicates, negatives, pair)
 Input: 18000 integers; seed=42; trials=3; identical input for every run
 Algorithm       | Mean seconds | Minimum seconds | Correct
-Bubble Sort     | 0.739710420  | 0.735368201     | PASS
-Selection Sort  | 0.083540218  | 0.080492964     | PASS
-Merge Sort      | 0.001306347  | 0.001288850     | PASS
+Bubble Sort     | 0.688101151  | 0.687758622     | PASS
+Selection Sort  | 0.070722405  | 0.070290106     | PASS
+Merge Sort      | 0.001238576  | 0.001219720     | PASS
 Slowest measured algorithm: Bubble Sort
 Verification: every output element equals the independently qsort-sorted reference.

@@ -1,27 +1,27 @@
 Iterations=32; threads requested=4; actual=4; trials=3
 Serial reference checksum=74835056050
 Policy          | Mean seconds | Minimum seconds | Correct
-static          | 0.000704007  | 0.000703741     | PASS
-dynamic,8       | 0.000696031  | 0.000692948     | PASS
-guided,8        | 0.000701634  | 0.000694961     | PASS
-Fastest measured policy: dynamic,8
+static          | 0.000756816  | 0.000752261     | PASS
+dynamic,8       | 0.000767542  | 0.000763692     | PASS
+guided,8        | 0.000763528  | 0.000762249     | PASS
+Fastest measured policy: static
 Verification: all policies match the serial reference at EVERY iteration.
 Iterations=8000; threads requested=1; actual=1; trials=3
 Serial reference checksum=17319206870328
 Policy          | Mean seconds | Minimum seconds | Correct
-static          | 0.181584171  | 0.181392853     | PASS
-dynamic,8       | 0.181618218  | 0.181363470     | PASS
-guided,8        | 0.181572769  | 0.181426084     | PASS
-Fastest measured policy: guided,8
+static          | 0.196130105  | 0.195891845     | PASS
+dynamic,8       | 0.195971784  | 0.195920809     | PASS
+guided,8        | 0.196009607  | 0.195903045     | PASS
+Fastest measured policy: dynamic,8
 Verification: all policies match the serial reference at EVERY iteration.
 Threads must be 1..64
 Threads must be 1..64
 Iterations=32; threads requested=4; actual=4; trials=3
 Serial reference checksum=74835056050
 Policy          | Mean seconds | Minimum seconds | Correct
-static          | 0.001453954  | 0.000707933     | PASS
-dynamic,8       | 0.002054595  | 0.000709100     | PASS
-guided,8        | 0.000936937  | 0.000698923     | PASS
-Fastest measured policy: guided,8
+static          | 0.002480635  | 0.000768090     | PASS
+dynamic,8       | 0.001291418  | 0.000768090     | PASS
+guided,8        | 0.001773342  | 0.000755857     | PASS
+Fastest measured policy: dynamic,8
 Verification: all policies match the serial reference at EVERY iteration.
 OpenMP serial-reference, single-thread, invalid input and sanitizer checks: PASS

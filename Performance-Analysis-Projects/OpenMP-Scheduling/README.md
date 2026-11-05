@@ -59,15 +59,15 @@ four-thread run on fewer than four available cores must be interpreted as oversu
 
 ## Actual Ubuntu execution results
 
-[Verified workflow run](https://github.com/ssrijenani/HPC-LAB/actions/runs/41973727526). Environment: [environment.txt](../environment.txt).
+[Verified workflow run](https://github.com/ssrijenani/HPC-LAB/actions/runs/41973892087). Environment: [environment.txt](../environment.txt).
 
 Measured with GCC `-O2`; three trials; seconds. These are actual captured measurements.
 
 | Method | Mean seconds | Minimum seconds | Correct |
 | --- | ---: | ---: | --- |
-| static | 0.173141453 | 0.173058589 | PASS |
-| dynamic,8 | 0.049362075 | 0.049167476 | PASS |
-| guided,8 | 0.173340644 | 0.173295985 | PASS |
+| static | 0.186981230 | 0.186867922 | PASS |
+| dynamic,8 | 0.049590319 | 0.049473419 | PASS |
+| guided,8 | 0.186977800 | 0.186958781 | PASS |
 
 ### Captured program output
 
@@ -75,9 +75,9 @@ Measured with GCC `-O2`; three trials; seconds. These are actual captured measur
 Iterations=8000; threads requested=4; actual=4; trials=3
 Serial reference checksum=17319206870328
 Policy          | Mean seconds | Minimum seconds | Correct
-static          | 0.173141453  | 0.173058589     | PASS
-dynamic,8       | 0.049362075  | 0.049167476     | PASS
-guided,8        | 0.173340644  | 0.173295985     | PASS
+static          | 0.186981230  | 0.186867922     | PASS
+dynamic,8       | 0.049590319  | 0.049473419     | PASS
+guided,8        | 0.186977800  | 0.186958781     | PASS
 Fastest measured policy: dynamic,8
 Verification: all policies match the serial reference at EVERY iteration.
 ```

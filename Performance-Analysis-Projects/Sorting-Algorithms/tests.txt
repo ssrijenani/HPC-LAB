@@ -2,25 +2,25 @@ Self-tests: PASS (7 cases x 3 algorithms: empty, singleton, sorted, reverse, dup
 Self-tests: PASS (7 cases x 3 algorithms: empty, singleton, sorted, reverse, duplicates, negatives, pair)
 Input: 1 integers; seed=42; trials=3; identical input for every run
 Algorithm       | Mean seconds | Minimum seconds | Correct
-Bubble Sort     | 0.000000046  | 0.000000025     | PASS
-Selection Sort  | 0.000000032  | 0.000000023     | PASS
-Merge Sort      | 0.000000027  | 0.000000023     | PASS
+Bubble Sort     | 0.000000060  | 0.000000040     | PASS
+Selection Sort  | 0.000000034  | 0.000000030     | PASS
+Merge Sort      | 0.000000037  | 0.000000030     | PASS
 Slowest measured algorithm: Bubble Sort
 Verification: every output element equals the independently qsort-sorted reference.
 Self-tests: PASS (7 cases x 3 algorithms: empty, singleton, sorted, reverse, duplicates, negatives, pair)
 Input: 2 integers; seed=42; trials=3; identical input for every run
 Algorithm       | Mean seconds | Minimum seconds | Correct
-Bubble Sort     | 0.000000042  | 0.000000024     | PASS
-Selection Sort  | 0.000000041  | 0.000000030     | PASS
-Merge Sort      | 0.000000039  | 0.000000029     | PASS
+Bubble Sort     | 0.000000067  | 0.000000040     | PASS
+Selection Sort  | 0.000000047  | 0.000000040     | PASS
+Merge Sort      | 0.000000044  | 0.000000031     | PASS
 Slowest measured algorithm: Bubble Sort
 Verification: every output element equals the independently qsort-sorted reference.
 Self-tests: PASS (7 cases x 3 algorithms: empty, singleton, sorted, reverse, duplicates, negatives, pair)
 Input: 1000 integers; seed=42; trials=3; identical input for every run
 Algorithm       | Mean seconds | Minimum seconds | Correct
-Bubble Sort     | 0.001807274  | 0.001797697     | PASS
-Selection Sort  | 0.000308301  | 0.000299539     | PASS
-Merge Sort      | 0.000054836  | 0.000048683     | PASS
+Bubble Sort     | 0.002204767  | 0.002192200     | PASS
+Selection Sort  | 0.000262883  | 0.000252330     | PASS
+Merge Sort      | 0.000040863  | 0.000036157     | PASS
 Slowest measured algorithm: Bubble Sort
 Verification: every output element equals the independently qsort-sorted reference.
 Invalid size
@@ -33,9 +33,9 @@ Self-tests: PASS (7 cases x 3 algorithms: empty, singleton, sorted, reverse, dup
 Self-tests: PASS (7 cases x 3 algorithms: empty, singleton, sorted, reverse, duplicates, negatives, pair)
 Input: 1000 integers; seed=42; trials=3; identical input for every run
 Algorithm       | Mean seconds | Minimum seconds | Correct
-Bubble Sort     | 0.003093976  | 0.002846390     | PASS
-Selection Sort  | 0.001704520  | 0.001703293     | PASS
-Merge Sort      | 0.000136171  | 0.000127579     | PASS
+Bubble Sort     | 0.002953330  | 0.002716005     | PASS
+Selection Sort  | 0.001714607  | 0.001589699     | PASS
+Merge Sort      | 0.000149522  | 0.000125904     | PASS
 Slowest measured algorithm: Bubble Sort
 Verification: every output element equals the independently qsort-sorted reference.
 Sorting correctness, invalid input and sanitizer checks: PASS
