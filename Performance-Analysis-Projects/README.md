@@ -1,5 +1,7 @@
 # Performance Analysis Projects
 
+Start here: [Step-by-step execution guide](RUNNING.md).
+
 Two beginner-friendly C projects: sorting algorithm profiling and OpenMP scheduling analysis.
 
 | Folder | Program | Purpose |

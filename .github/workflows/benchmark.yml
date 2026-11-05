@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'Performance-Analysis-Projects/**/*.c'
+      - 'Performance-Analysis-Projects/RUNNING.md'
       - '.github/workflows/benchmark.yml'
 permissions:
   contents: write
