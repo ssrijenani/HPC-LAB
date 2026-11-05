@@ -62,15 +62,15 @@ ranking across compilers, distributions or hardware. Full raw reports are kept w
 
 ## Actual Ubuntu execution results
 
-[Verified workflow run](https://github.com/ssrijenani/HPC-LAB/actions/runs/41973064646). Environment: [environment.txt](../environment.txt).
+[Verified workflow run](https://github.com/ssrijenani/HPC-LAB/actions/runs/41973727526). Environment: [environment.txt](../environment.txt).
 
 Measured with GCC `-O2`; three trials; seconds. These are actual captured measurements.
 
 | Method | Mean seconds | Minimum seconds | Correct |
 | --- | ---: | ---: | --- |
-| Bubble Sort | 0.423394112 | 0.417921337 | PASS |
-| Selection Sort | 0.046536778 | 0.046338247 | PASS |
-| Merge Sort | 0.001082753 | 0.001069614 | PASS |
+| Bubble Sort | 0.739710420 | 0.735368201 | PASS |
+| Selection Sort | 0.083540218 | 0.080492964 | PASS |
+| Merge Sort | 0.001306347 | 0.001288850 | PASS |
 
 ### Captured program output
 
@@ -78,9 +78,9 @@ Measured with GCC `-O2`; three trials; seconds. These are actual captured measur
 Self-tests: PASS (7 cases x 3 algorithms: empty, singleton, sorted, reverse, duplicates, negatives, pair)
 Input: 18000 integers; seed=42; trials=3; identical input for every run
 Algorithm       | Mean seconds | Minimum seconds | Correct
-Bubble Sort     | 0.423394112  | 0.417921337     | PASS
-Selection Sort  | 0.046536778  | 0.046338247     | PASS
-Merge Sort      | 0.001082753  | 0.001069614     | PASS
+Bubble Sort     | 0.739710420  | 0.735368201     | PASS
+Selection Sort  | 0.083540218  | 0.080492964     | PASS
+Merge Sort      | 0.001306347  | 0.001288850     | PASS
 Slowest measured algorithm: Bubble Sort
 Verification: every output element equals the independently qsort-sorted reference.
 ```
@@ -95,8 +95,7 @@ Actual gprof flat-profile hotspots (`-O0 -pg`, separate run):
 
 | Function | Self time share | Self seconds |
 | --- | ---: | ---: |
-| `bubble_sort` | 63.92% | 0.62 |
-| `selection_sort` | 35.05% | 0.34 |
-| `merge` | 1.03% | 0.01 |
+| `bubble_sort` | 62.46% | 1.98 |
+| `selection_sort` | 37.54% | 1.19 |
 
 These shares describe sampled self time in the instrumented run, not the optimized timing table. Recursive Merge Sort delegates work to `merge`; consult the call graph for inclusive costs. Sampling may miss very short functions. [Complete gprof report](gprof-report.txt); [instrumented output](profile-output.txt).

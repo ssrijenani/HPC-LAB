@@ -2,14 +2,14 @@ Flat profile:
 
 Each sample counts as 0.01 seconds.
   %   cumulative   self              self     total           
- time   seconds   seconds    calls  ms/call  ms/call  name    
- 63.92      0.62     0.62       10    62.00    62.00  bubble_sort
- 35.05      0.96     0.34       10    34.00    34.00  selection_sort
-  1.03      0.97     0.01    54016     0.00     0.00  merge
-  0.00      0.97     0.00       30     0.00    32.33  run_sort
-  0.00      0.97     0.00       18     0.00     0.00  seconds
-  0.00      0.97     0.00       10     0.00     1.00  merge_sort
-  0.00      0.97     0.00        1     0.00   679.00  self_test
+ time   seconds   seconds    calls   s/call   s/call  name    
+ 62.46      1.98     1.98       10     0.20     0.20  bubble_sort
+ 37.54      3.17     1.19       10     0.12     0.12  selection_sort
+  0.00      3.17     0.00    54016     0.00     0.00  merge
+  0.00      3.17     0.00       30     0.00     0.11  run_sort
+  0.00      3.17     0.00       18     0.00     0.00  seconds
+  0.00      3.17     0.00       10     0.00     0.00  merge_sort
+  0.00      3.17     0.00        1     0.00     2.22  self_test
 
  %         the percentage of the total running time of the
 time       program used by this function.
@@ -47,43 +47,43 @@ notice and this notice are preserved.
 		     Call graph (explanation follows)
 
 
-granularity: each sample hit covers 4 byte(s) for 1.03% of 0.97 seconds
+granularity: each sample hit covers 4 byte(s) for 0.32% of 3.17 seconds
 
 index % time    self  children    called     name
-                0.00    0.29       9/30          main [2]
-                0.00    0.68      21/30          self_test [3]
-[1]    100.0    0.00    0.97      30         run_sort [1]
-                0.62    0.00      10/10          bubble_sort [4]
-                0.34    0.00      10/10          selection_sort [5]
-                0.00    0.01      10/10          merge_sort [7]
+                0.00    0.95       9/30          main [2]
+                0.00    2.22      21/30          self_test [3]
+[1]    100.0    0.00    3.17      30         run_sort [1]
+                1.98    0.00      10/10          bubble_sort [4]
+                1.19    0.00      10/10          selection_sort [5]
+                0.00    0.00      10/10          merge_sort [8]
 -----------------------------------------------
                                                  <spontaneous>
-[2]    100.0    0.00    0.97                 main [2]
-                0.00    0.68       1/1           self_test [3]
-                0.00    0.29       9/30          run_sort [1]
-                0.00    0.00      18/18          seconds [8]
+[2]    100.0    0.00    3.17                 main [2]
+                0.00    2.22       1/1           self_test [3]
+                0.00    0.95       9/30          run_sort [1]
+                0.00    0.00      18/18          seconds [7]
 -----------------------------------------------
-                0.00    0.68       1/1           main [2]
-[3]     70.0    0.00    0.68       1         self_test [3]
-                0.00    0.68      21/30          run_sort [1]
+                0.00    2.22       1/1           main [2]
+[3]     70.0    0.00    2.22       1         self_test [3]
+                0.00    2.22      21/30          run_sort [1]
 -----------------------------------------------
-                0.62    0.00      10/10          run_sort [1]
-[4]     63.9    0.62    0.00      10         bubble_sort [4]
+                1.98    0.00      10/10          run_sort [1]
+[4]     62.5    1.98    0.00      10         bubble_sort [4]
 -----------------------------------------------
-                0.34    0.00      10/10          run_sort [1]
-[5]     35.1    0.34    0.00      10         selection_sort [5]
+                1.19    0.00      10/10          run_sort [1]
+[5]     37.5    1.19    0.00      10         selection_sort [5]
 -----------------------------------------------
-                0.01    0.00   54016/54016       merge_sort [7]
-[6]      1.0    0.01    0.00   54016         merge [6]
------------------------------------------------
-                              108032             merge_sort [7]
-                0.00    0.01      10/10          run_sort [1]
-[7]      1.0    0.00    0.01      10+108032  merge_sort [7]
-                0.01    0.00   54016/54016       merge [6]
-                              108032             merge_sort [7]
+                0.00    0.00   54016/54016       merge_sort [8]
+[6]      0.0    0.00    0.00   54016         merge [6]
 -----------------------------------------------
                 0.00    0.00      18/18          main [2]
-[8]      0.0    0.00    0.00      18         seconds [8]
+[7]      0.0    0.00    0.00      18         seconds [7]
+-----------------------------------------------
+                              108032             merge_sort [8]
+                0.00    0.00      10/10          run_sort [1]
+[8]      0.0    0.00    0.00      10+108032  merge_sort [8]
+                0.00    0.00   54016/54016       merge [6]
+                              108032             merge_sort [8]
 -----------------------------------------------
 
  This table describes the call tree of the program, and was sorted by
@@ -177,5 +177,5 @@ notice and this notice are preserved.
 Index by function name
 
    [4] bubble_sort             [1] run_sort (sorting.c)    [3] self_test (sorting.c)
-   [6] merge                   [8] seconds (sorting.c)
-   [7] merge_sort              [5] selection_sort
+   [6] merge                   [7] seconds (sorting.c)
+   [8] merge_sort              [5] selection_sort

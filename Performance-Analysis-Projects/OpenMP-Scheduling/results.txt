@@ -1,8 +1,8 @@
 Iterations=8000; threads requested=4; actual=4; trials=3
 Serial reference checksum=17319206870328
 Policy          | Mean seconds | Minimum seconds | Correct
-static          | 0.145242131  | 0.144108058     | PASS
-dynamic,8       | 0.038269262  | 0.038093565     | PASS
-guided,8        | 0.145116525  | 0.143994997     | PASS
+static          | 0.173141453  | 0.173058589     | PASS
+dynamic,8       | 0.049362075  | 0.049167476     | PASS
+guided,8        | 0.173340644  | 0.173295985     | PASS
 Fastest measured policy: dynamic,8
 Verification: all policies match the serial reference at EVERY iteration.
