@@ -1,0 +1,8 @@
+sorting
+sorting_pg
+sorting_check
+openmp
+openmp_check
+gmon.out
+*.o
+.DS_Store

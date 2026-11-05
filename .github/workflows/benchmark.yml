@@ -1,0 +1,152 @@
+name: Compile, test and profile C projects
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'Performance-Analysis-Projects/**/*.c'
+      - '.github/workflows/benchmark.yml'
+permissions:
+  contents: write
+jobs:
+  benchmark:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: Performance-Analysis-Projects
+    env:
+      OMP_DYNAMIC: 'FALSE'
+      OMP_PROC_BIND: 'TRUE'
+      OMP_PLACES: cores
+      OMP_NUM_THREADS: '4'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Record environment
+        run: |
+          set -euo pipefail
+          {
+            date -u
+            uname -a
+            gcc --version
+            gprof --version
+            printf '\nAvailable processors: '
+            nproc
+            lscpu
+            printf '\nOpenMP settings\n'
+            env | sort | grep '^OMP_'
+            printf '\nSource commit: %s\n' "$GITHUB_SHA"
+            printf 'Run: https://github.com/%s/actions/runs/%s\n' "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID"
+          } > environment.txt
+      - name: Compile and test sorting
+        working-directory: Performance-Analysis-Projects/Sorting-Algorithms
+        run: |
+          set -euo pipefail
+          gcc -std=c11 -Wall -Wextra -Wpedantic -Werror -O2 sorting.c -o sorting
+          {
+            ./sorting --test
+            ./sorting 1
+            ./sorting 2
+            ./sorting 1000
+            if ./sorting 0; then exit 1; fi
+            if ./sorting invalid; then exit 1; fi
+            if ./sorting 50001; then exit 1; fi
+            gcc -std=c11 -Wall -Wextra -Wpedantic -O1 -g -fsanitize=address,undefined -fno-omit-frame-pointer sorting.c -o sorting_check
+            ./sorting_check --test
+            ./sorting_check 1000
+            echo 'Sorting correctness, invalid input and sanitizer checks: PASS'
+          } > tests.txt 2>&1
+          ./sorting | tee results.txt
+          gcc -std=c11 -Wall -Wextra -Wpedantic -Werror -O0 -g -pg -fno-inline sorting.c -o sorting_pg
+          ./sorting_pg | tee profile-output.txt
+          test -s gmon.out
+          gprof ./sorting_pg gmon.out > gprof-report.txt
+          test -s gprof-report.txt
+          cat tests.txt
+          head -25 gprof-report.txt
+      - name: Compile and test OpenMP
+        working-directory: Performance-Analysis-Projects/OpenMP-Scheduling
+        run: |
+          set -euo pipefail
+          gcc -std=c11 -Wall -Wextra -Wpedantic -Werror -O2 -fopenmp openmp.c -o openmp
+          {
+            ./openmp --test
+            ./openmp 1
+            if ./openmp 0; then exit 1; fi
+            if ./openmp invalid; then exit 1; fi
+            gcc -std=c11 -Wall -Wextra -Wpedantic -O1 -g -fopenmp -fsanitize=address,undefined -fno-omit-frame-pointer openmp.c -o openmp_check
+            ./openmp_check --test
+            echo 'OpenMP serial-reference, single-thread, invalid input and sanitizer checks: PASS'
+          } > tests.txt 2>&1
+          ./openmp 4 | tee results.txt
+          cat tests.txt
+      - name: Document measured results
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import os, re
+          run = f"https://github.com/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}"
+          for folder in ['Sorting-Algorithms', 'OpenMP-Scheduling']:
+              root = Path(folder)
+              output = (root / 'results.txt').read_text()
+              rows = []
+              for line in output.splitlines():
+                  fields = [s.strip() for s in line.split('|')]
+                  if len(fields) == 4 and fields[-1] == 'PASS':
+                      rows.append(fields)
+              assert len(rows) == 3, 'Missing benchmark rows'
+              section = '\n## Actual Ubuntu execution results\n\n'
+              section += f'[Verified workflow run]({run}). Environment: [environment.txt](../environment.txt).\n\n'
+              section += 'Measured with GCC `-O2`; three trials; seconds. These are actual captured measurements.\n\n'
+              section += '| Method | Mean seconds | Minimum seconds | Correct |\n| --- | ---: | ---: | --- |\n'
+              for row in rows:
+                  section += '| ' + ' | '.join(row) + ' |\n'
+              section += '\n### Captured program output\n\n```text\n' + output + '```\n\n'
+              section += 'Full checks: [tests.txt](tests.txt). All commands completed successfully, including sanitizer checks.\n\n'
+              if folder == 'Sorting-Algorithms':
+                  slowest = max(rows, key=lambda row: float(row[1]))[0]
+                  profile = (root / 'gprof-report.txt').read_text()
+                  flat = profile.split('Call graph')[0]
+                  samples = []
+                  for line in flat.splitlines():
+                      match = re.match(r'^\s*([0-9.]+)\s+([0-9.]+)\s+([0-9.]+)\s+(.+)$', line)
+                      if match and float(match[1]) > 0:
+                          samples.append((float(match[1]), float(match[3]), match[4].split()[-1]))
+                  assert samples, 'No nonzero gprof samples; profiling run must be longer'
+                  samples.sort(reverse=True)
+                  section += f'### Hotspot analysis and conclusion\n\nThe slowest optimized algorithm in this run was **{slowest}**. '
+                  section += 'The quadratic sorts scan repeatedly, while Merge Sort divides and merges in O(n log n). Bubble Sort also swaps adjacent inversions.\n\n'
+                  section += 'Actual gprof flat-profile hotspots (`-O0 -pg`, separate run):\n\n| Function | Self time share | Self seconds |\n| --- | ---: | ---: |\n'
+                  for share, seconds, name in samples[:5]:
+                      section += f'| `{name}` | {share:.2f}% | {seconds:.2f} |\n'
+                  section += '\nThese shares describe sampled self time in the instrumented run, not the optimized timing table. '
+                  section += 'Recursive Merge Sort delegates work to `merge`; consult the call graph for inclusive costs. '
+                  section += 'Sampling may miss very short functions. [Complete gprof report](gprof-report.txt); [instrumented output](profile-output.txt).\n'
+              else:
+                  fastest = min(rows, key=lambda row: float(row[1]))[0]
+                  section += f'### Measured conclusion\n\n**{fastest}** had the lowest mean elapsed time in this environment. '
+                  explanations = {
+                      'dynamic,8': 'Small requested chunks let idle threads take more of the expensive first quarter, improving balance despite dispatch overhead.',
+                      'guided,8': 'Shrinking chunks balance work while reducing dispatch overhead; that tradeoff gave the lowest mean here despite the clustered heavy region.',
+                      'static': 'Avoiding repeated chunk dispatch gave the lowest mean here. Runtime overhead and available cores outweighed the expected load-balancing advantage in this run.'
+                  }
+                  section += explanations[fastest] + ' This explanation is an interpretation of the measurements, not a separate measurement of scheduling overhead.\n'
+              readme = root / 'README.md'
+              base = readme.read_text().split('<!-- ACTUAL_RESULTS -->')[0]
+              readme.write_text(base + '<!-- ACTUAL_RESULTS -->\n' + section)
+          PY
+      - name: Upload execution evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: execution-evidence
+          path: |
+            Performance-Analysis-Projects/environment.txt
+            Performance-Analysis-Projects/Sorting-Algorithms/*.txt
+            Performance-Analysis-Projects/OpenMP-Scheduling/*.txt
+      - name: Commit actual reports and documentation
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add environment.txt Sorting-Algorithms/*.txt OpenMP-Scheduling/*.txt Sorting-Algorithms/README.md OpenMP-Scheduling/README.md
+          git commit -m 'Record verified GCC, gprof and OpenMP execution results'
+          git push

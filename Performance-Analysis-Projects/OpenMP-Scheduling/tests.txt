@@ -1,0 +1,27 @@
+Iterations=32; threads requested=4; actual=4; trials=3
+Serial reference checksum=74835056050
+Policy          | Mean seconds | Minimum seconds | Correct
+static          | 0.000760683  | 0.000751910     | PASS
+dynamic,8       | 0.000759928  | 0.000754675     | PASS
+guided,8        | 0.000764220  | 0.000763211     | PASS
+Fastest measured policy: dynamic,8
+Verification: all policies match the serial reference at EVERY iteration.
+Iterations=8000; threads requested=1; actual=1; trials=3
+Serial reference checksum=17319206870328
+Policy          | Mean seconds | Minimum seconds | Correct
+static          | 0.196225578  | 0.195919020     | PASS
+dynamic,8       | 0.196577892  | 0.195984081     | PASS
+guided,8        | 0.196116316  | 0.195942363     | PASS
+Fastest measured policy: guided,8
+Verification: all policies match the serial reference at EVERY iteration.
+Threads must be 1..64
+Threads must be 1..64
+Iterations=32; threads requested=4; actual=4; trials=3
+Serial reference checksum=74835056050
+Policy          | Mean seconds | Minimum seconds | Correct
+static          | 0.000776369  | 0.000771787     | PASS
+dynamic,8       | 0.001469944  | 0.000771016     | PASS
+guided,8        | 0.002215933  | 0.000755537     | PASS
+Fastest measured policy: static
+Verification: all policies match the serial reference at EVERY iteration.
+OpenMP serial-reference, single-thread, invalid input and sanitizer checks: PASS
